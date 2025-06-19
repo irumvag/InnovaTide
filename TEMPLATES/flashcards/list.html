@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">{% trans "Educational Flashcards" %}</h1>
+    
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for category in categories %}
+        <div class="col">
+            <div class="card h-100 shadow-sm" style="border-left: 5px solid {{ category.color }};">
+                <div class="card-body">
+                    <h2 class="h5 card-title">{{ category.name }}</h2>
+                    <p class="card-text">{{ category.description|truncatewords:20 }}</p>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <a href="{% url 'flashcards:category' category.id %}" class="btn btn-sm btn-success">
+                        {% trans "View Flashcards" %} ({{ category.flashcard_set.count }})
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="text-center mt-5">
+        <a href="{% url 'flashcards:random' %}" class="btn btn-lg btn-success">
+            {% trans "Show Me a Random Flashcard" %}
+        </a>
+    </div>
+</div>
+{% endblock %}

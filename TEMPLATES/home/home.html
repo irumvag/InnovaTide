@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section bg-success bg-opacity-10 py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">{% trans "Exploring Non-Energy Applications of Nuclear Technology" %}</h1>
+                <p class="lead mb-4">{% trans "Discover how nuclear innovations are transforming industries beyond energy production." %}</p>
+                <a href="" class="btn btn-success btn-lg me-2">{% trans "Learn More" %}</a>
+                <a href="{" class="btn btn-outline-success btn-lg">{% trans "Quick Facts" %}</a>
+            </div>
+            <div class="col-lg-6">
+                <img src="{% static 'images/hero-image.svg' %}" alt="Nuclear Applications" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Did You Know Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="card shadow-sm">
+            <div class="card-header bg-success text-white">
+                <h2 class="h5 mb-0">{% trans "Did You Know?" %}</h2>
+            </div>
+            <div class="card-body">
+                <div id="factCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for fact in did_you_know_facts %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <p class="lead text-center">{{ fact }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Projects -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">{% trans "Featured Projects" %}</h2>
+        <div class="row g-4">
+            {% for project in featured_projects %}
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}">
+                    <div class="card-body">
+                        <h3 class="h5 card-title">{{ project.title }}</h3>
+                        <p class="card-text">{{ project.summary }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <a href="{{ project.get_absolute_url }}" class="btn btn-sm btn-success">{% trans "View Project" %}</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <p class="text-center">{% trans "No featured projects available at the moment." %}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Quick Flashcards Preview -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">{% trans "Quick Facts" %}</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <div id="flashcardPreview" class="py-4">
+                            <h3 id="flashcardTerm" class="mb-4">{% trans "Nuclear Medicine" %}</h3>
+                            <p id="flashcardDefinition" class="lead">{% trans "Uses radioactive substances for diagnosis and treatment of diseases." %}</p>
+                        </div>
+                        <button id="nextFlashcard" class="btn btn-success">{% trans "Next Fact" %}</button>
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <a href="" class="btn btn-outline-success">{% trans "View All Flashcards" %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Flashcard rotation
+const flashcards = [
+    {term: "{% trans 'Nuclear Medicine' %}", definition: "{% trans 'Uses radioactive substances for diagnosis and treatment of diseases.' %}"},
+    {term: "{% trans 'Food Irradiation' %}", definition: "{% trans 'Extends shelf life and eliminates harmful bacteria in food.' %}"},
+    {term: "{% trans 'Industrial Radiography' %}", definition: "{% trans 'Uses gamma rays to inspect materials for defects without destruction.' %}"}
+];
+
+let currentFlashcard = 0;
+
+function showFlashcard(index) {
+    document.getElementById('flashcardTerm').textContent = flashcards[index].term;
+    document.getElementById('flashcardDefinition').textContent = flashcards[index].definition;
+}
+
+document.getElementById('nextFlashcard').addEventListener('click', function() {
+    currentFlashcard = (currentFlashcard + 1) % flashcards.length;
+    showFlashcard(currentFlashcard);
+});
+
+// Auto-rotate every 5 seconds
+setInterval(function() {
+    currentFlashcard = (currentFlashcard + 1) % flashcards.length;
+    showFlashcard(currentFlashcard);
+}, 5000);
+</script>
+{% endblock %}

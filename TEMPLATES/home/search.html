@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Search Results" %} | InnovaTide{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Search Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-5 fw-bold text-success mb-3">{% trans "Search Results" %}</h1>
+            
+            <!-- Search Box (repeated from header) -->
+            <form class="d-flex mb-4" action="{% url 'home:search' %}" method="get">
+                <input class="form-control form-control-lg me-2" 
+                       type="search" 
+                       placeholder="{% trans 'Search InnovaTide...' %}" 
+                       aria-label="Search" 
+                       name="q"
+                       value="{{ query }}">
+                <button class="btn btn-success btn-lg" type="submit">
+                    <i class="fas fa-search me-1"></i> {% trans "Search" %}
+                </button>
+            </form>
+
+            {% if query %}
+                <p class="lead">{% blocktrans %}Showing results for: <strong>"{{ query }}"</strong>{% endblocktrans %}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    <div class="row">
+        <div class="col-12">
+            {% if results %}
+                <div class="list-group">
+                    {% for result in results %}
+                    <a href="{{ result.get_absolute_url }}" class="list-group-item list-group-item-action border-0 py-3">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h3 class="h5 mb-2 text-success">{{ result.title }}</h3>
+                            <small class="text-muted">{{ result.content_type|capfirst }}</small>
+                        </div>
+                        <p class="mb-1">{{ result.description|truncatewords:30 }}</p>
+                        <small class="text-muted">{% trans "Last updated" %} {{ result.updated_at|date:"M d, Y" }}</small>
+                    </a>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                {% if is_paginated %}
+                <nav aria-label="Search results pagination" class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link text-success" href="?q={{ query }}&page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                        
+                        {% for num in page_obj.paginator.page_range %}
+                            {% if page_obj.number == num %}
+                                <li class="page-item active"><span class="page-link bg-success border-success">{{ num }}</span></li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link text-success" href="?q={{ query }}&page={{ num }}">{{ num }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link text-success" href="?q={{ query }}&page={{ page_obj.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+
+            {% else %}
+                <!-- No Results -->
+                <div class="text-center py-5 my-5">
+                    <img src="{% static 'images/no-results.svg' %}" alt="No results found" class="img-fluid mb-4" style="max-height: 200px;">
+                    <h3 class="h4 text-muted mb-3">{% trans "No results found" %}</h3>
+                    <p class="text-muted">{% trans "Try different keywords or browse our categories:" %}</p>
+                    <div class="d-flex justify-content-center gap-2 mt-3">
+                        <a href="{% url 'applications:list' %}" class="btn btn-outline-success">{% trans "Applications" %}</a>
+                        <a href="{% url 'projects:list' %}" class="btn btn-outline-success">{% trans "Projects" %}</a>
+                        <a href="{% url 'flashcards:list' %}" class="btn btn-outline-success">{% trans "Flashcards" %}</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .list-group-item {
+        transition: all 0.2s ease;
+        margin-bottom: 0.5rem;
+        border-radius: 0.5rem !important;
+    }
+    .list-group-item:hover {
+        background-color: #e8f5e9;
+        transform: translateX(5px);
+    }
+</style>
+{% endblock %}

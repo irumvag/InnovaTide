@@ -1,0 +1,46 @@
+:root {
+    --primary-green: #28a745;
+    --mint-green: #d4edda;
+    --jade-green: #155724;
+    --teal-green: #20c997;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+.hero-section {
+    background-color: var(--mint-green);
+}
+
+.btn-success {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+}
+
+.btn-outline-success {
+    color: var(--primary-green);
+    border-color: var(--primary-green);
+}
+
+.btn-outline-success:hover {
+    background-color: var(--primary-green);
+    color: white;
+}
+
+.card {
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Flashcard styling */
+#flashcardPreview {
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

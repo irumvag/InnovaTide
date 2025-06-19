@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}{{ category.title }} | InnovaTide{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="row mb-5">
+            <div class="col-lg-6">
+                <h1 class="display-5 fw-bold text-success mb-3">{{ category.title }}</h1>
+                <p class="lead">{{ category.description }}</p>
+            </div>
+            <div class="col-lg-6">
+                <img src="{% static 'images/applications/'|add:category.title|slugify|add:'-hero.jpg' %}" 
+                     alt="{{ category.title }}" 
+                     class="img-fluid rounded shadow">
+            </div>
+        </div>
+
+        <!-- Applications Grid -->
+        <div class="row g-4">
+            {% for application in category.applications %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <img src="{% static application.image %}" 
+                         class="card-img-top" 
+                         alt="{{ application.title }}"
+                         style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h3 class="h5 card-title">{{ application.title }}</h3>
+                        <p class="card-text">{{ application.description }}</p>
+                        {% if application.stats %}
+                        <div class="bg-success bg-opacity-10 p-2 rounded">
+                            <small class="text-success">{{ application.stats }}</small>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <a href="#" class="btn btn-sm btn-outline-success">{% trans "Case Study" %}</a>
+                        <a href="#" class="btn btn-sm btn-success float-end">{% trans "Learn More" %}</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info">{% trans "No applications found in this category." %}</div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Related Categories -->
+        <div class="mt-5 pt-4 border-top">
+            <h3 class="h5 mb-4">{% trans "Explore Other Applications" %}</h3>
+            <div class="d-flex flex-wrap gap-2">
+                {% for cat in related_categories %}
+                    <a href="{% url 'applications:'|add:cat %}" 
+                       class="btn btn-outline-success">
+                        {{ cat|title }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

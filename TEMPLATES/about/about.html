@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "About InnovaTide" %}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="about-hero bg-success bg-opacity-10 py-5">
+    <div class="container py-4">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4 text-success">{% trans "About InnovaTide" %}</h1>
+                <p class="lead mb-4">{{ mission }}</p>
+                <a href="#mission" class="btn btn-success btn-lg me-2">{% trans "Our Mission" %}</a>
+                <a href="#team" class="btn btn-outline-success btn-lg">{% trans "Meet the Team" %}</a>
+            </div>
+            <div class="col-lg-6">
+                <img src="{% static 'images/about-hero.svg' %}" alt="About InnovaTide" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mission Section -->
+<section id="mission" class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="fw-bold mb-5 text-success">{% trans "Our Mission" %}</h2>
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-5">
+                        <p class="lead">{% blocktrans %}InnovaTide bridges the gap between nuclear technology and non-energy applications to solve real-world challenges in medicine, agriculture, and industry.{% endblocktrans %}</p>
+                        
+                        <div class="row mt-5 g-4">
+                            <div class="col-md-4">
+                                <div class="p-3 text-center">
+                                    <div class="bg-success bg-opacity-10 text-success rounded-circle p-3 mb-3 mx-auto" style="width: 80px; height: 80px;">
+                                        <i class="fas fa-medkit fa-2x"></i>
+                                    </div>
+                                    <h3 class="h5">{% trans "Medical" %}</h3>
+                                    <p>{% trans "Advancing diagnostics and treatment" %}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 text-center">
+                                    <div class="bg-success bg-opacity-10 text-success rounded-circle p-3 mb-3 mx-auto" style="width: 80px; height: 80px;">
+                                        <i class="fas fa-seedling fa-2x"></i>
+                                    </div>
+                                    <h3 class="h5">{% trans "Agriculture" %}</h3>
+                                    <p>{% trans "Improving food security" %}</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-3 text-center">
+                                    <div class="bg-success bg-opacity-10 text-success rounded-circle p-3 mb-3 mx-auto" style="width: 80px; height: 80px;">
+                                        <i class="fas fa-industry fa-2x"></i>
+                                    </div>
+                                    <h3 class="h5">{% trans "Industry" %}</h3>
+                                    <p>{% trans "Enhancing manufacturing quality" %}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Timeline Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center fw-bold mb-5 text-success">{% trans "Our Journey" %}</h2>
+        <div class="timeline">
+            {% for milestone in milestones %}
+            <div class="timeline-container {% cycle 'left' 'right' %}">
+                <div class="timeline-content card shadow-sm">
+                    <div class="card-body">
+                        <h3 class="h5">{{ milestone.year }}</h3>
+                        <p>{{ milestone.event }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section id="team" class="py-5">
+    <div class="container">
+        <h2 class="text-center fw-bold mb-5 text-success">{% trans "Our Team" %}</h2>
+        <div class="row g-4">
+            {% for member in team_members %}
+            <div class="col-md-4">
+                <div class="card h-100 shadow-sm border-0">
+                    <img src="{% static member.image %}" class="card-img-top" alt="{{ member.name }}" style="height: 300px; object-fit: cover;">
+                    <div class="card-body">
+                        <h3 class="h5 card-title">{{ member.name }}</h3>
+                        <p class="text-success">{{ member.position }}</p>
+                        <p class="card-text">{{ member.bio }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <a href="#" class="btn btn-sm btn-outline-success">{% trans "View Profile" %}</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5 bg-success text-white">
+    <div class="container text-center py-4">
+        <h2 class="fw-bold mb-4">{% trans "Join Our Mission" %}</h2>
+        <p class="lead mb-4">{% trans "Discover how nuclear innovations can benefit your industry" %}</p>
+        <a href="#" class="btn btn-light btn-lg me-2">{% trans "Contact Us" %}</a>
+        <a href="" class="btn btn-outline-light btn-lg">{% trans "Explore Applications" %}</a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .about-hero {
+        background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), 
+                    url('{% static "images/pattern.png" %}');
+    }
+    
+    /* Timeline styling */
+    .timeline {
+        position: relative;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .timeline::after {
+        content: '';
+        position: absolute;
+        width: 6px;
+        background-color: #28a745;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        margin-left: -3px;
+    }
+    
+    .timeline-container {
+        padding: 10px 40px;
+        position: relative;
+        width: 50%;
+    }
+    
+    .timeline-container::after {
+        content: '';
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        background-color: white;
+        border: 4px solid #28a745;
+        top: 15px;
+        border-radius: 50%;
+        z-index: 1;
+    }
+    
+    .left {
+        left: 0;
+    }
+    
+    .right {
+        left: 50%;
+    }
+    
+    .left::after {
+        right: -12px;
+    }
+    
+    .right::after {
+        left: -12px;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Smooth scrolling for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
+</script>
+{% endblock %}

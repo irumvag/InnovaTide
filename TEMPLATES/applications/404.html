@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block content %}
+<div class="container py-5 text-center">
+    <img src="{% static 'images/404.svg' %}" alt="Not Found" class="img-fluid mb-4" style="max-height: 300px;">
+    <h1 class="display-5 text-danger mb-3">{% trans "Application Category Not Found" %}</h1>
+    <p class="lead">{% trans "The requested application category doesn't exist." %}</p>
+    <a href="{% url 'applications:medical' %}" class="btn btn-success btn-lg mt-3">
+        {% trans "Browse Medical Applications" %}
+    </a>
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Medical Applications" %} | InnovaTide{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="row mb-5">
+            <div class="col-lg-6">
+                <h1 class="display-5 fw-bold text-success mb-3">{% trans "Medical Applications" %}</h1>
+                <p class="lead">{% blocktrans %}Harnessing nuclear technology for advanced diagnostics and treatments.{% endblocktrans %}</p>
+            </div>
+            <div class="col-lg-6">
+                <img src="{% static 'images/applications/medical-hero.jpg' %}" 
+                     alt="Medical Applications" 
+                     class="img-fluid rounded shadow">
+            </div>
+        </div>
+
+        <!-- Applications Grid -->
+        <div class="row g-4">
+            {% for application in applications %}
+                {% include "applications/components/app_card.html" with application=application %}
+            {% empty %}
+                <div class="col-12">
+                    <div class="alert alert-info">{% trans "No applications found in this category." %}</div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Related Categories -->
+        <div class="mt-5 pt-4 border-top">
+            <h3 class="h5 mb-4">{% trans "Explore Other Applications" %}</h3>
+            <div class="d-flex flex-wrap gap-2">
+                {% for category in related_categories %}
+                    <a href="{% url 'applications:'|add:category.lower %}" 
+                       class="btn btn-outline-success">
+                        {{ category }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
