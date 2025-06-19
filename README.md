@@ -1,4 +1,4 @@
-## Here it's all about this web InnotaTide
+## Here it's all about this web InnovaTide
 
     This project focuses on nuclear energy and technology.
 
