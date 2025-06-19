@@ -18,6 +18,9 @@ def flashcard_view(request, flashcard_id):
     flashcard = get_object_or_404(Flashcard, id=flashcard_id)
     return render(request, 'flashcards/view.html', {'flashcard': flashcard})
 
-def flashcard_random(request):
-    flashcard = Flashcard.objects.order_by('?').first()
-    return render(request, 'flashcards/random.html', {'flashcard': flashcard})
+# In your views.py
+def random_flashcard(request):
+    flashcards = Flashcard.objects.order_by('?')[:10]  # 10 random cards
+    return render(request, 'flashcards/random.html', {
+        'flashcards_json': serializers.serialize('json', flashcards)
+    })

@@ -15,14 +15,14 @@ urlpatterns = [
     path('flashcards/', include('flashcards.urls')),
 ]
 
-urlpatterns += i18n_patterns(
-    path('', include('home.urls')),
-    path('about/', include('about.urls')),
-    path('applications/', include('applications.urls')),
-    path('projects/', include('projects.urls')),
-    path('media/', include('media.urls')),
-    path('flashcards/', include('flashcards.urls')),
-)
+# urlpatterns += i18n_patterns(
+#     path('', include('home.urls')),
+#     path('about/', include('about.urls')),
+#     path('applications/', include('applications.urls')),
+#     path('projects/', include('projects.urls')),
+#     path('media/', include('media.urls')),
+#     path('flashcards/', include('flashcards.urls')),
+# )
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
